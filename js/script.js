@@ -1,4 +1,4 @@
-// DOM Elements
+
 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 const navLinksItems = document.querySelectorAll('.nav-link');
@@ -8,13 +8,12 @@ const portfolioItems = document.querySelectorAll('.portfolio-item');
 const filterButtons = document.querySelectorAll('.filter-btn');
 const fullscreenToggle = document.querySelector('.fullscreen-toggle');
 
-// Mobile Menu Toggle
+
 if (mobileMenuToggle) {
     mobileMenuToggle.addEventListener('click', () => {
         mobileMenuToggle.classList.toggle('active');
         navLinks.classList.toggle('active');
         
-        // Animate hamburger menu
         const spans = mobileMenuToggle.querySelectorAll('span');
         if (mobileMenuToggle.classList.contains('active')) {
             spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
