@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Jason Martin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="resume.html" class="nav-link">Resume</a>
+                <a href="portfolio.html" class="nav-link active">Portfolio</a>
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-phone"></i>
+                <span>775 986 3021</span>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="portfolio-container">
+        <div class="portfolio-content">
+            <h1 class="portfolio-title">PORTFOLIO</h1>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="branding">Branding</button>
+                <button class="filter-btn" data-filter="web">Web Design</button>
+                <button class="filter-btn" data-filter="print">Print</button>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="branding">
+                    <img src="images/portfolio1.jpg" alt="Branding Project 1">
+                    <div class="portfolio-overlay">
+                        <h3>Brand Identity Design</h3>
+                        <p>Logo and branding package</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="web">
+                    <img src="images/portfolio2.jpg" alt="Web Design Project 1">
+                    <div class="portfolio-overlay">
+                        <h3>Corporate Website</h3>
+                        <p>Responsive web design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="print">
+                    <img src="images/portfolio3.jpg" alt="Print Design Project 1">
+                    <div class="portfolio-overlay">
+                        <h3>Magazine Layout</h3>
+                        <p>Print design and layout</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="branding">
+                    <img src="images/portfolio4.jpg" alt="Branding Project 2">
+                    <div class="portfolio-overlay">
+                        <h3>Product Packaging</h3>
+                        <p>Package design and branding</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="web">
+                    <img src="images/portfolio5.jpg" alt="Web Design Project 2">
+                    <div class="portfolio-overlay">
+                        <h3>E-commerce Site</h3>
+                        <p>Online store design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="print">
+                    <img src="images/portfolio6.jpg" alt="Print Design Project 2">
+                    <div class="portfolio-overlay">
+                        <h3>Business Cards</h3>
+                        <p>Corporate stationery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fullscreen-toggle">
+            <i class="fas fa-expand"></i>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
