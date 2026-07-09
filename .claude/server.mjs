@@ -19,6 +19,9 @@ const MIME = {
   '.svg':  'image/svg+xml',
   '.woff2':'font/woff2',
   '.ico':  'image/x-icon',
+  '.mp4':  'video/mp4',
+  '.webm': 'video/webm',
+  '.vtt':  'text/vtt',
 };
 
 const server = http.createServer((req, res) => {

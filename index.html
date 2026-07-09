@@ -94,6 +94,10 @@
       <div class="sc-cta">
         <a class="btn btn-primary" href="Siam-Hossain-CV.pdf" download>Download CV <span aria-hidden="true">↓</span></a>
         <a class="btn btn-ghost" href="mailto:siam.cse.aiub@gmail.com">Email me <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost sc-video-cta" href="#intro" hidden>
+          <svg class="play-ic" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+          Watch my intro
+        </a>
       </div>
     </div>
 
@@ -126,6 +130,23 @@
   <div class="sec-head">
     <div class="num"><b>01</b> / about</div>
     <h2>A bit about me.</h2>
+  </div>
+
+  <!-- Video intro — hidden until videos/intro.mp4 exists (see videos/README.md).
+       While the file is missing, the classic photo layout below is shown instead. -->
+  <div class="intro-video" id="intro" hidden>
+    <div class="iv-frame">
+      <!-- #t=0.001 makes Safari paint the first frame when no poster is set -->
+      <video id="intro-player" preload="none" playsinline>
+        <source src="videos/intro.mp4#t=0.001" type="video/mp4">
+      </video>
+      <button class="iv-overlay" type="button" aria-label="Play my video introduction">
+        <span class="iv-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5.5v13l11-6.5z"/></svg>
+        </span>
+        <span class="iv-chip" aria-hidden="true">Meet Siam<span class="iv-time"></span></span>
+      </button>
+    </div>
   </div>
 
   <div class="about-grid">

@@ -45,6 +45,7 @@ ul,ol{list-style:none}
 img{display:block;max-width:100%}
 ::selection{background:var(--accent);color:#fff}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+[hidden]{display:none!important}
 
 section{scroll-margin-top:84px}
 
@@ -178,6 +179,48 @@ section{padding:clamp(56px,8vw,104px) 0;border-top:1px solid var(--rule)}
 .sec-head .num{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding-top:8px}
 .sec-head .num b{color:var(--accent);font-weight:600;margin-right:6px}
 .sec-head h2{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(32px,4.4vw,56px);line-height:1.04;letter-spacing:-.01em;color:var(--ink)}
+
+/* ============================================================
+   ABOUT — video intro
+   ============================================================ */
+.sc-video-cta .play-ic{width:12px;height:12px;fill:var(--accent);flex-shrink:0}
+.intro-video{margin-bottom:clamp(28px,5vw,56px);scroll-margin-top:84px}
+.iv-frame{
+  position:relative;overflow:hidden;border-radius:18px;
+  border:1px solid var(--rule);background:var(--ink);
+  box-shadow:0 1px 2px rgba(24,25,28,.04), 0 18px 50px -28px rgba(24,25,28,.32);
+}
+/* padding-top box keeps 16:9 on browsers without aspect-ratio support */
+.iv-frame::before{content:"";display:block;padding-top:56.25%}
+.iv-frame video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:var(--ink)}
+.iv-overlay{
+  position:absolute;top:0;left:0;right:0;bottom:0;width:100%;border:0;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,rgba(24,25,28,.06) 45%,rgba(24,25,28,.44));
+  transition:background .25s var(--ease);
+}
+.iv-overlay:hover,
+.iv-overlay:focus-visible{background:linear-gradient(180deg,rgba(24,25,28,.14) 45%,rgba(24,25,28,.52))}
+.iv-play{
+  width:clamp(60px,7vw,84px);aspect-ratio:1;border-radius:999px;
+  background:var(--accent);display:grid;place-items:center;
+  box-shadow:0 12px 34px -8px rgba(19,36,92,.55);
+  transition:transform .25s var(--ease),background .25s var(--ease);
+}
+.iv-overlay:hover .iv-play,
+.iv-overlay:focus-visible .iv-play{transform:scale(1.07);background:var(--accent-deep)}
+.iv-play svg{width:38%;height:38%;fill:#fff;margin-left:7%}
+.iv-chip{
+  position:absolute;left:16px;bottom:14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;background:rgba(24,25,28,.55);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 13px;
+}
+/* about layout once the video is live: bio goes full-width, photo retires */
+.video-on .about-grid{grid-template-columns:1fr}
+.video-on .about-portrait{display:none}
+.video-on .about-bio{max-width:72ch}
 
 /* ============================================================
    ABOUT
@@ -367,6 +410,9 @@ section{padding:clamp(56px,8vw,104px) 0;border-top:1px solid var(--rule)}
   .work-grid{grid-template-columns:1fr}
   .socials{grid-template-columns:1fr 1fr}
   .foot{font-size:10px}
+
+  .iv-frame{border-radius:14px}
+  .iv-chip{left:10px;bottom:10px;font-size:10px;padding:6px 10px}
 }
 
 @media (max-width: 380px){
