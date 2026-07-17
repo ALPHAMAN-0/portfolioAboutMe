@@ -53,7 +53,14 @@
 
   /* ── section rhythm ── */
   .case{padding:52px 0;border-top:1px solid var(--rule)}
-  .case:first-of-type{border-top:0;padding-top:0}
+  .proj-panel > .case:first-of-type{border-top:0;padding-top:0}
+
+  /* ── project tabs (switch between case studies) ── */
+  .proj-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:56px;border:1px solid var(--rule);background:var(--surface);padding:4px;border-radius:999px;width:max-content;max-width:100%}
+  .proj-tab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);padding:10px 20px;border-radius:999px;white-space:nowrap;transition:color .2s var(--ease),background .2s var(--ease)}
+  .proj-tab:hover{color:var(--ink)}
+  .proj-tab.active{background:var(--accent);color:#fff}
+  @media (max-width:560px){.proj-tabs{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}
   .case-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
   .case-h{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(28px,3.6vw,46px);line-height:1.05;letter-spacing:-.01em;color:var(--ink);margin-bottom:18px}
   .case-p{font-size:16px;line-height:1.75;color:var(--ink-2);max-width:64ch}
@@ -136,6 +143,28 @@
   .arch-cap{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:var(--ink-3);margin-top:18px;max-width:72ch}
   .arch-cap code{font-family:var(--mono);font-size:.86em;color:var(--accent-deep)}
 
+  /* ── architecture animation: flowing lines, step pulses, a travelling packet ── */
+  .arch .packet{opacity:0;offset-distance:0%}
+  .arch .packet-aiub{offset-path:path("M330,51 L330,118 L330,150 L169,150 L169,208 L169,237 L286,237 L312,208 L375,237 L492,237 L518,208 L581,237 L698,237 L724,208 L787,237 L787,294 L787,406")}
+  .arch .packet-et{offset-path:path("M295,51 L295,118 L295,150 L116,150 L116,208 L215,237 L340,237 L390,237 L416,208 L530,237 L530,292 L530,310 L205,310 L205,330 L205,376 L205,420 L205,480 L350,480 L480,535 L290,535 L20,535 L20,51 L155,51 L295,51")}
+  @media (prefers-reduced-motion:no-preference){
+    .arch .flow{stroke-dasharray:7 6;animation:arch-flow 1s linear infinite}
+    .arch .flow-slow{animation-duration:2.4s}
+    .arch .flow-err{animation-duration:1.6s}
+    @keyframes arch-flow{ to{ stroke-dashoffset:-52 } }
+
+    .arch .pulse{animation:arch-pulse 3.2s ease-out infinite;transform-origin:center;transform-box:fill-box}
+    @keyframes arch-pulse{
+      0%  { transform:scale(.6); opacity:.85 }
+      70% { transform:scale(2.1); opacity:0 }
+      100%{ opacity:0 }
+    }
+
+    .arch .packet{opacity:1;animation:arch-travel 6s linear infinite}
+    .arch .packet-et{animation-duration:7.5s}
+    @keyframes arch-travel{ to{ offset-distance:100% } }
+  }
+
   /* ── reliability grid ── */
   .rel{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
   .rel-item{background:var(--surface);border:1px solid var(--rule);border-radius:13px;padding:20px}
@@ -193,9 +222,16 @@
     <div class="num"><b>05</b> / automation</div>
     <div>
       <h1>Automation.</h1>
-      <p class="sub">Small <b>serverless pipelines</b> that remove repetitive work and run themselves. The flagship watches my university's notice board — plus a growing shelf of smaller ones, like a Gmail-to-Telegram digest watcher.</p>
+      <p class="sub">Small <b>serverless pipelines</b> that remove repetitive work and run themselves. Pick a project below.</p>
     </div>
   </div>
+
+  <div class="proj-tabs" role="tablist" aria-label="Automation projects">
+    <button type="button" class="proj-tab active" data-proj="aiub" role="tab" aria-selected="true" id="tab-aiub" aria-controls="panel-aiub">AIUB Notice Board</button>
+    <button type="button" class="proj-tab" data-proj="email-trucker" role="tab" aria-selected="false" id="tab-email-trucker" aria-controls="panel-email-trucker">Email Trucker</button>
+  </div>
+
+  <div class="proj-panel" id="panel-aiub" data-proj="aiub" role="tabpanel" aria-labelledby="tab-aiub">
 
   <!-- ════════════════ FLAGSHIP ════════════════ -->
   <section class="case">
@@ -351,8 +387,8 @@
           <text class="lbl-a" x="525" y="48">MANUAL · workflow_dispatch</text>
           <text class="sub" x="525" y="68">mode: run | test</text>
 
-          <path d="M330,80 L330,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn)"/>
-          <path d="M630,80 L630,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn)"/>
+          <path class="flow" d="M330,80 L330,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn)"/>
+          <path class="flow" d="M630,80 L630,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn)"/>
         </g>
 
         <!-- ── github actions runner frame ── -->
@@ -366,6 +402,7 @@
         <!-- 1 Scrape -->
         <g>
           <rect x="80" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="106" cy="208" r="13" fill="#1F44E0" style="animation-delay:0s"/>
           <circle cx="106" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="106" y="212" text-anchor="middle">1</text>
           <text class="name" x="128" y="213">Scrape</text>
@@ -376,6 +413,7 @@
         <!-- 2 Dedup -->
         <g>
           <rect x="286" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="312" cy="208" r="13" fill="#1F44E0" style="animation-delay:.8s"/>
           <circle cx="312" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="312" y="212" text-anchor="middle">2</text>
           <text class="name" x="334" y="213">Dedup</text>
@@ -386,6 +424,7 @@
         <!-- 3 Classify -->
         <g>
           <rect x="492" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="518" cy="208" r="13" fill="#1F44E0" style="animation-delay:1.6s"/>
           <circle cx="518" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="518" y="212" text-anchor="middle">3</text>
           <text class="name" x="540" y="213">Classify</text>
@@ -396,6 +435,7 @@
         <!-- 4 Notify -->
         <g>
           <rect x="698" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="724" cy="208" r="13" fill="#1F44E0" style="animation-delay:2.4s"/>
           <circle cx="724" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="724" y="212" text-anchor="middle">4</text>
           <text class="name" x="746" y="213">Notify</text>
@@ -405,9 +445,9 @@
         </g>
 
         <!-- ── inter-stage arrows ── -->
-        <path d="M258,237 L286,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
-        <path d="M464,237 L492,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
-        <path d="M670,237 L698,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
+        <path class="flow" d="M258,237 L286,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
+        <path class="flow" d="M464,237 L492,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
+        <path class="flow" d="M670,237 L698,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
 
         <!-- ── external services ── -->
         <!-- AIUB notices -->
@@ -416,7 +456,7 @@
           <text class="lbl" x="98" y="434">AIUB NOTICES</text>
           <text class="name" x="98" y="454" style="font-size:12.5px">aiub.edu · source</text>
         </g>
-        <path d="M169,406 L169,294" fill="none" stroke="#1F44E0" stroke-width="1.4" marker-end="url(#arr)"/>
+        <path class="flow" d="M169,406 L169,294" fill="none" stroke="#1F44E0" stroke-width="1.4" marker-end="url(#arr)"/>
         <text class="lbl" x="176" y="356">fetch</text>
 
         <!-- seen.json state -->
@@ -425,7 +465,7 @@
           <text class="lbl" x="304" y="434">STATE STORE</text>
           <text class="name" x="304" y="454" style="font-size:12.5px">seen.json + heartbeat</text>
         </g>
-        <path d="M375,406 L375,294" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-start="url(#arrn)" marker-end="url(#arrn)"/>
+        <path class="flow flow-slow" d="M375,406 L375,294" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-start="url(#arrn)" marker-end="url(#arrn)"/>
         <text class="lbl" x="382" y="356">read / write</text>
 
         <!-- github models -->
@@ -434,7 +474,7 @@
           <text class="lbl" x="510" y="434">GITHUB MODELS</text>
           <text class="name" x="510" y="454" style="font-size:12.5px">free · GITHUB_TOKEN</text>
         </g>
-        <path d="M581,406 L581,294" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-start="url(#arrn)" marker-end="url(#arrn)"/>
+        <path class="flow flow-slow" d="M581,406 L581,294" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-start="url(#arrn)" marker-end="url(#arrn)"/>
         <text class="lbl" x="588" y="356">prompt / label</text>
 
         <!-- telegram -->
@@ -443,8 +483,11 @@
           <text class="lbl" x="716" y="434">TELEGRAM BOT API</text>
           <text class="name" x="716" y="454" style="font-size:12.5px">→ your phone</text>
         </g>
-        <path d="M787,294 L787,406" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
+        <path class="flow" d="M787,294 L787,406" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
         <text class="lbl" x="794" y="356">send</text>
+
+        <!-- travelling packet — traces trigger → scrape → dedup → classify → notify → telegram -->
+        <circle class="packet packet-aiub" cx="330" cy="51" r="5" fill="#1F44E0"/>
       </svg>
     </div>
 
@@ -483,6 +526,10 @@
       </div>
     </div>
   </section>
+
+  </div><!-- /panel-aiub -->
+
+  <div class="proj-panel" id="panel-email-trucker" data-proj="email-trucker" role="tabpanel" aria-labelledby="tab-email-trucker" hidden>
 
   <!-- ════════════════ EMAIL TRUCKER ════════════════ -->
   <section class="case">
@@ -630,8 +677,8 @@
           <text class="lbl-a" x="545" y="48">MANUAL · workflow_dispatch</text>
           <text class="sub" x="545" y="68">local / on-demand test</text>
 
-          <path d="M295,80 L295,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
-          <path d="M665,80 L665,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
+          <path class="flow" d="M295,80 L295,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
+          <path class="flow" d="M665,80 L665,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
         </g>
 
         <!-- ── github actions runner frame ── -->
@@ -644,6 +691,7 @@
         <!-- 1 Checkout & secrets -->
         <g>
           <rect x="90" y="182" width="250" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="116" cy="208" r="13" fill="#1F44E0" style="animation-delay:0s"/>
           <circle cx="116" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="116" y="212" text-anchor="middle">1</text>
           <text class="name" x="138" y="213">Checkout &amp; secrets</text>
@@ -654,6 +702,7 @@
         <!-- 2 Read mail -->
         <g>
           <rect x="390" y="182" width="280" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="416" cy="208" r="13" fill="#1F44E0" style="animation-delay:1s"/>
           <circle cx="416" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="416" y="212" text-anchor="middle">2</text>
           <text class="name" x="438" y="213">Read mail (IMAP)</text>
@@ -661,13 +710,13 @@
           <text class="det" x="408" y="263">Gmail · read-only login</text>
           <text class="det" x="408" y="279">category:primary, new UIDs</text>
         </g>
-        <path d="M340,237 L390,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr2)"/>
+        <path class="flow" d="M340,237 L390,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr2)"/>
 
         <!-- branch trunk -->
-        <path d="M530,292 L530,310" fill="none" stroke="#1F44E0" stroke-width="1.4"/>
-        <path d="M530,310 L205,310 L205,330" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr2)"/>
-        <path d="M530,310 L495,310 L495,330" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
-        <path d="M530,310 L785,310 L785,330" fill="none" stroke="#E5484D" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrr2)"/>
+        <path class="flow" d="M530,292 L530,310" fill="none" stroke="#1F44E0" stroke-width="1.4"/>
+        <path class="flow" d="M530,310 L205,310 L205,330" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr2)"/>
+        <path class="flow flow-slow" d="M530,310 L495,310 L495,330" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
+        <path class="flow flow-err" d="M530,310 L785,310 L785,330" fill="none" stroke="#E5484D" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrr2)"/>
 
         <!-- D new mail -->
         <g>
@@ -692,8 +741,8 @@
         </g>
 
         <!-- D, E → state store -->
-        <path d="M205,420 L205,480 L350,480 L350,500" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
-        <path d="M495,420 L495,480 L610,480 L610,500" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
+        <path class="flow flow-slow" d="M205,420 L205,480 L350,480 L350,500" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
+        <path class="flow flow-slow" d="M495,420 L495,480 L610,480 L610,500" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
 
         <!-- state store -->
         <g>
@@ -704,8 +753,11 @@
         </g>
 
         <!-- loop back to next scheduled run -->
-        <path d="M290,535 L20,535 L20,51 L155,51" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
+        <path class="flow flow-slow" d="M290,535 L20,535 L20,51 L155,51" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
         <text class="lbl" x="34" y="293" transform="rotate(-90 34 293)" text-anchor="middle">STATE FEEDS NEXT RUN</text>
+
+        <!-- travelling packet — traces trigger → checkout → read mail → new-mail digest → state store → loops back -->
+        <circle class="packet packet-et" cx="295" cy="51" r="5" fill="#1F44E0"/>
       </svg>
     </div>
 
@@ -733,6 +785,8 @@
       </div>
     </div>
   </section>
+
+  </div><!-- /panel-email-trucker -->
 
   <!-- ════════════════ MORE AUTOMATION ════════════════ -->
   <section class="case">
@@ -764,5 +818,32 @@
 </main>
 
 <script src="js/script.js"></script>
+<script>
+  (function(){
+    var tabs   = Array.prototype.slice.call(document.querySelectorAll('.proj-tab'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.proj-panel'));
+    if (!tabs.length || !panels.length) return;
+
+    function activate(proj, focus){
+      tabs.forEach(function(t){
+        var on = t.dataset.proj === proj;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        if (on && focus) t.focus();
+      });
+      panels.forEach(function(p){ p.hidden = p.dataset.proj !== proj; });
+    }
+
+    tabs.forEach(function(t){
+      t.addEventListener('click', function(){
+        activate(t.dataset.proj, false);
+        history.replaceState(null, '', '#' + t.dataset.proj);
+      });
+    });
+
+    var fromHash = (location.hash || '').replace('#', '');
+    if (tabs.some(function(t){ return t.dataset.proj === fromHash; })) activate(fromHash, false);
+  })();
+</script>
 </body>
 </html>
