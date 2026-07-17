@@ -143,26 +143,66 @@
   .arch-cap{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:var(--ink-3);margin-top:18px;max-width:72ch}
   .arch-cap code{font-family:var(--mono);font-size:.86em;color:var(--accent-deep)}
 
-  /* ── architecture animation: flowing lines, step pulses, a travelling packet ── */
-  .arch .packet{opacity:0;offset-distance:0%}
-  .arch .packet-aiub{offset-path:path("M330,51 L330,118 L330,150 L169,150 L169,208 L169,237 L286,237 L312,208 L375,237 L492,237 L518,208 L581,237 L698,237 L724,208 L787,237 L787,294 L787,406")}
-  .arch .packet-et{offset-path:path("M295,51 L295,118 L295,150 L116,150 L116,208 L215,237 L340,237 L390,237 L416,208 L530,237 L530,292 L530,310 L205,310 L205,330 L205,376 L205,420 L205,480 L350,480 L480,535 L290,535 L20,535 L20,51 L155,51 L295,51")}
+  /* ── architecture animation: one run of the pipeline plays out, station by station.
+        The packet travels the real arrow routes, PAUSES at each stage, and while it
+        is parked there that stage's board lights up cobalt — so a human can follow
+        the flow step by step. AIUB cycle = 10s, Email Trucker cycle = 12s. ── */
+  .arch .packet{opacity:0}
+  .arch-aiub .packet{offset-path:path("M330,80 L330,176 L169,176 L169,237 L787,237 L787,406")}
+  .arch-et .packet{offset-path:path("M295,80 L295,176 L215,176 L215,237 L530,237 L530,310 L205,310 L205,375 L205,480 L350,480 L350,535 L480,535 L290,535 L20,535 L20,51 L155,51 L295,51")}
+
   @media (prefers-reduced-motion:no-preference){
-    .arch .flow{stroke-dasharray:7 6;animation:arch-flow 1s linear infinite}
-    .arch .flow-slow{animation-duration:2.4s}
-    .arch .flow-err{animation-duration:1.6s}
+    /* directional dashes on the arrows — slow, readable drift */
+    .arch .flow{stroke-dasharray:7 6;animation:arch-flow 2.4s linear infinite}
+    .arch .flow-slow{animation-duration:4s}
+    .arch .flow-err{animation-duration:3s}
     @keyframes arch-flow{ to{ stroke-dashoffset:-52 } }
 
-    .arch .pulse{animation:arch-pulse 3.2s ease-out infinite;transform-origin:center;transform-box:fill-box}
-    @keyframes arch-pulse{
-      0%  { transform:scale(.6); opacity:.85 }
-      70% { transform:scale(2.1); opacity:0 }
-      100%{ opacity:0 }
+    /* each station's board lights up while the packet is parked on it */
+    .arch .live-card{animation:card-live linear infinite}
+    .arch-aiub .live-card{animation-duration:10s}
+    .arch-et .live-card{animation-duration:12s}
+    @keyframes card-live{
+      0%        {fill:#FFFFFF;stroke:#D9D6CD;stroke-width:1}
+      3%,12%    {fill:#DFE7FF;stroke:#1F44E0;stroke-width:2.4;filter:drop-shadow(0 0 8px rgba(31,68,224,.45))}
+      17%,100%  {fill:#FFFFFF;stroke:#D9D6CD;stroke-width:1}
     }
 
-    .arch .packet{opacity:1;animation:arch-travel 6s linear infinite}
-    .arch .packet-et{animation-duration:7.5s}
-    @keyframes arch-travel{ to{ offset-distance:100% } }
+    /* number badges ping once, exactly when their stage becomes active */
+    .arch .pulse{opacity:0;animation:arch-pulse linear infinite;transform-origin:center;transform-box:fill-box}
+    .arch-aiub .pulse{animation-duration:10s}
+    .arch-et .pulse{animation-duration:12s}
+    @keyframes arch-pulse{
+      0%   { transform:scale(.6); opacity:.85 }
+      13%  { transform:scale(2.3); opacity:0 }
+      100% { transform:scale(2.3); opacity:0 }
+    }
+
+    /* the packet — hidden entirely on browsers without offset-path support */
+    @supports (offset-path: path("M0,0 L1,1")){
+      .arch-aiub .packet{animation:packet-aiub 10s linear infinite}
+      .arch-et .packet{animation:packet-et 12s linear infinite}
+    }
+    @keyframes packet-aiub{
+      0%       {offset-distance:0%;   opacity:0}
+      3%       {opacity:1}
+      12%,24%  {offset-distance:28.8%}   /* parked on 1 · Scrape   */
+      34%,44%  {offset-distance:47.4%}   /* parked on 2 · Dedup    */
+      54%,64%  {offset-distance:66.1%}   /* parked on 3 · Classify */
+      74%,84%  {offset-distance:84.7%}   /* parked on 4 · Notify   */
+      94%      {offset-distance:100%; opacity:1}  /* delivered to Telegram */
+      97%,100% {offset-distance:100%; opacity:0}
+    }
+    @keyframes packet-et{
+      0%       {offset-distance:0%;   opacity:0}
+      2%       {opacity:1}
+      10%,20%  {offset-distance:8.9%}    /* parked on 1 · Checkout & secrets */
+      28%,38%  {offset-distance:20.7%}   /* parked on 2 · Read mail          */
+      47%,57%  {offset-distance:38%}     /* parked on Send Telegram digest   */
+      65%,75%  {offset-distance:54.3%}   /* parked on the state store        */
+      97%      {offset-distance:99.5%; opacity:1}  /* rides the loop back to cron */
+      100%     {offset-distance:100%; opacity:0}
+    }
   }
 
   /* ── reliability grid ── */
@@ -367,7 +407,7 @@
     </p>
 
     <div class="arch-scroll">
-      <svg class="arch" viewBox="0 0 960 500" role="img" aria-label="Architecture diagram: a GitHub Actions cron job runs main.py, which scrapes the AIUB notices page, deduplicates against seen.json, classifies and summarizes each new notice with GitHub Models, and sends Telegram messages — committing state back to the repo each run.">
+      <svg class="arch arch-aiub" viewBox="0 0 960 500" role="img" aria-label="Architecture diagram: a GitHub Actions cron job runs main.py, which scrapes the AIUB notices page, deduplicates against seen.json, classifies and summarizes each new notice with GitHub Models, and sends Telegram messages — committing state back to the repo each run.">
         <defs>
           <marker id="arr" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
             <path d="M0,0 L7,3 L0,6 Z" fill="#1F44E0"/>
@@ -379,7 +419,7 @@
 
         <!-- ── triggers ── -->
         <g>
-          <rect x="205" y="22" width="250" height="58" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:0s" x="205" y="22" width="250" height="58" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl-a" x="225" y="48">CRON · 4× DAILY</text>
           <text class="sub" x="225" y="68">09 · 13 · 17 · 21 — Asia/Dhaka</text>
 
@@ -401,8 +441,8 @@
         <!-- ── stage cards ── -->
         <!-- 1 Scrape -->
         <g>
-          <rect x="80" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
-          <circle class="pulse" cx="106" cy="208" r="13" fill="#1F44E0" style="animation-delay:0s"/>
+          <rect class="live-card" style="animation-delay:1.2s" x="80" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="106" cy="208" r="13" fill="#1F44E0" style="animation-delay:1.2s"/>
           <circle cx="106" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="106" y="212" text-anchor="middle">1</text>
           <text class="name" x="128" y="213">Scrape</text>
@@ -412,8 +452,8 @@
         </g>
         <!-- 2 Dedup -->
         <g>
-          <rect x="286" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
-          <circle class="pulse" cx="312" cy="208" r="13" fill="#1F44E0" style="animation-delay:.8s"/>
+          <rect class="live-card" style="animation-delay:3.4s" x="286" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="312" cy="208" r="13" fill="#1F44E0" style="animation-delay:3.4s"/>
           <circle cx="312" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="312" y="212" text-anchor="middle">2</text>
           <text class="name" x="334" y="213">Dedup</text>
@@ -423,8 +463,8 @@
         </g>
         <!-- 3 Classify -->
         <g>
-          <rect x="492" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
-          <circle class="pulse" cx="518" cy="208" r="13" fill="#1F44E0" style="animation-delay:1.6s"/>
+          <rect class="live-card" style="animation-delay:5.4s" x="492" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="518" cy="208" r="13" fill="#1F44E0" style="animation-delay:5.4s"/>
           <circle cx="518" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="518" y="212" text-anchor="middle">3</text>
           <text class="name" x="540" y="213">Classify</text>
@@ -434,8 +474,8 @@
         </g>
         <!-- 4 Notify -->
         <g>
-          <rect x="698" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
-          <circle class="pulse" cx="724" cy="208" r="13" fill="#1F44E0" style="animation-delay:2.4s"/>
+          <rect class="live-card" style="animation-delay:7.4s" x="698" y="182" width="178" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="724" cy="208" r="13" fill="#1F44E0" style="animation-delay:7.4s"/>
           <circle cx="724" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="724" y="212" text-anchor="middle">4</text>
           <text class="name" x="746" y="213">Notify</text>
@@ -452,7 +492,7 @@
         <!-- ── external services ── -->
         <!-- AIUB notices -->
         <g>
-          <rect x="80" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:1.2s" x="80" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl" x="98" y="434">AIUB NOTICES</text>
           <text class="name" x="98" y="454" style="font-size:12.5px">aiub.edu · source</text>
         </g>
@@ -461,7 +501,7 @@
 
         <!-- seen.json state -->
         <g>
-          <rect x="286" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:3.4s" x="286" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl" x="304" y="434">STATE STORE</text>
           <text class="name" x="304" y="454" style="font-size:12.5px">seen.json + heartbeat</text>
         </g>
@@ -470,7 +510,7 @@
 
         <!-- github models -->
         <g>
-          <rect x="492" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:5.4s" x="492" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl" x="510" y="434">GITHUB MODELS</text>
           <text class="name" x="510" y="454" style="font-size:12.5px">free · GITHUB_TOKEN</text>
         </g>
@@ -479,15 +519,17 @@
 
         <!-- telegram -->
         <g>
-          <rect x="698" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:7.4s" x="698" y="408" width="178" height="60" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl" x="716" y="434">TELEGRAM BOT API</text>
           <text class="name" x="716" y="454" style="font-size:12.5px">→ your phone</text>
         </g>
         <path class="flow" d="M787,294 L787,406" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr)"/>
         <text class="lbl" x="794" y="356">send</text>
 
-        <!-- travelling packet — traces trigger → scrape → dedup → classify → notify → telegram -->
-        <circle class="packet packet-aiub" cx="330" cy="51" r="5" fill="#1F44E0"/>
+        <!-- travelling packet — leaves cron, parks on each stage while it lights up, ends at Telegram.
+             cx/cy stay 0: the offset-path supplies the absolute position, and an element offset
+             would be ADDED to it, pushing the dot off-route. -->
+        <circle class="packet" cx="0" cy="0" r="5.5" fill="#1F44E0"/>
       </svg>
     </div>
 
@@ -654,7 +696,7 @@
     </p>
 
     <div class="arch-scroll">
-      <svg class="arch" viewBox="0 0 960 600" role="img" aria-label="Architecture diagram: an hourly cron, or a manual dispatch, runs check_mail.py on a GitHub Actions runner. It checks out the repo with its secrets, then logs into Gmail over read-only IMAP and searches for new Primary mail. New mail sends a Telegram digest, no new mail just logs and exits, and an error sends a failure alert. Successful runs commit the last-seen UID to state.json, which the next scheduled run reads back.">
+      <svg class="arch arch-et" viewBox="0 0 960 600" role="img" aria-label="Architecture diagram: an hourly cron, or a manual dispatch, runs check_mail.py on a GitHub Actions runner. It checks out the repo with its secrets, then logs into Gmail over read-only IMAP and searches for new Primary mail. New mail sends a Telegram digest, no new mail just logs and exits, and an error sends a failure alert. Successful runs commit the last-seen UID to state.json, which the next scheduled run reads back.">
         <defs>
           <marker id="arr2" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
             <path d="M0,0 L7,3 L0,6 Z" fill="#1F44E0"/>
@@ -669,7 +711,7 @@
 
         <!-- ── triggers ── -->
         <g>
-          <rect x="155" y="22" width="280" height="58" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:0s" x="155" y="22" width="280" height="58" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl-a" x="175" y="48">CRON · HOURLY, :17 PAST</text>
           <text class="sub" x="175" y="68">off the top-of-hour rush</text>
 
@@ -690,8 +732,8 @@
 
         <!-- 1 Checkout & secrets -->
         <g>
-          <rect x="90" y="182" width="250" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
-          <circle class="pulse" cx="116" cy="208" r="13" fill="#1F44E0" style="animation-delay:0s"/>
+          <rect class="live-card" style="animation-delay:1.2s" x="90" y="182" width="250" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="116" cy="208" r="13" fill="#1F44E0" style="animation-delay:1.2s"/>
           <circle cx="116" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="116" y="212" text-anchor="middle">1</text>
           <text class="name" x="138" y="213">Checkout &amp; secrets</text>
@@ -701,8 +743,8 @@
         </g>
         <!-- 2 Read mail -->
         <g>
-          <rect x="390" y="182" width="280" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
-          <circle class="pulse" cx="416" cy="208" r="13" fill="#1F44E0" style="animation-delay:1s"/>
+          <rect class="live-card" style="animation-delay:3.4s" x="390" y="182" width="280" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle class="pulse" cx="416" cy="208" r="13" fill="#1F44E0" style="animation-delay:3.4s"/>
           <circle cx="416" cy="208" r="13" fill="#1F44E0"/>
           <text class="nbadge" x="416" y="212" text-anchor="middle">2</text>
           <text class="name" x="438" y="213">Read mail (IMAP)</text>
@@ -720,7 +762,7 @@
 
         <!-- D new mail -->
         <g>
-          <rect x="90" y="330" width="230" height="90" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:5.6s" x="90" y="330" width="230" height="90" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl-a" x="108" y="354">NEW PRIMARY MAIL</text>
           <text class="name" x="108" y="376">Send Telegram digest</text>
           <text class="sub" x="108" y="398">sender + subject · Bot API</text>
@@ -746,7 +788,7 @@
 
         <!-- state store -->
         <g>
-          <rect x="290" y="500" width="380" height="70" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <rect class="live-card" style="animation-delay:7.8s" x="290" y="500" width="380" height="70" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
           <text class="lbl" x="308" y="524">STATE STORE</text>
           <text class="name" x="308" y="546" style="font-size:12.5px">state.json — last UID + UIDVALIDITY</text>
           <text class="sub" x="308" y="562">committed back to the repo</text>
@@ -756,8 +798,9 @@
         <path class="flow flow-slow" d="M290,535 L20,535 L20,51 L155,51" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
         <text class="lbl" x="34" y="293" transform="rotate(-90 34 293)" text-anchor="middle">STATE FEEDS NEXT RUN</text>
 
-        <!-- travelling packet — traces trigger → checkout → read mail → new-mail digest → state store → loops back -->
-        <circle class="packet packet-et" cx="295" cy="51" r="5" fill="#1F44E0"/>
+        <!-- travelling packet — leaves cron, parks on each station, then rides the state loop back to cron.
+             cx/cy stay 0: the offset-path supplies the absolute position (see the AIUB packet note). -->
+        <circle class="packet" cx="0" cy="0" r="5.5" fill="#1F44E0"/>
       </svg>
     </div>
 
