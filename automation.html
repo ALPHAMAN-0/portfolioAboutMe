@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Automation — AIUB Notice Bot — Siam Hossain</title>
-<meta name="description" content="AIUB Notice Board — an AI-powered, serverless Telegram bot by Siam Hossain that scrapes the AIUB notices page, classifies & summarizes each notice, and pushes it to Telegram. Runs free on GitHub Actions. The story, pipeline and architecture." />
+<title>Automation — AIUB Notice Bot &amp; Email Trucker — Siam Hossain</title>
+<meta name="description" content="Two serverless automation pipelines by Siam Hossain: AIUB Notice Board, an AI-powered Telegram bot that scrapes & classifies university notices, and Email Trucker, an hourly Gmail-to-Telegram digest bot. Both free, on GitHub Actions." />
 
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
 
@@ -12,13 +12,13 @@
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://alphaman-0.github.io/AboutMe/automation.html" />
-<meta property="og:title" content="Automation — AIUB Notice Bot — Siam Hossain" />
-<meta property="og:description" content="A serverless, AI-powered Telegram bot that scrapes, classifies and pushes new AIUB notices — free, on GitHub Actions. The story and the architecture." />
+<meta property="og:title" content="Automation — AIUB Notice Bot &amp; Email Trucker — Siam Hossain" />
+<meta property="og:description" content="Two serverless, GitHub-Actions-run bots: an AI-powered Telegram notice board, and an hourly Gmail-to-Telegram digest watcher. The stories and the architectures." />
 <meta property="og:image" content="https://alphaman-0.github.io/AboutMe/images/SIAM.jpeg" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Automation — AIUB Notice Bot — Siam Hossain" />
-<meta name="twitter:description" content="A serverless, AI-powered Telegram bot that scrapes, classifies and pushes new AIUB notices — free, on GitHub Actions." />
+<meta name="twitter:title" content="Automation — AIUB Notice Bot &amp; Email Trucker — Siam Hossain" />
+<meta name="twitter:description" content="Two serverless, GitHub-Actions-run bots: an AI-powered Telegram notice board, and an hourly Gmail-to-Telegram digest watcher." />
 <meta name="twitter:image" content="https://alphaman-0.github.io/AboutMe/images/SIAM.jpeg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -193,7 +193,7 @@
     <div class="num"><b>05</b> / automation</div>
     <div>
       <h1>Automation.</h1>
-      <p class="sub">Small <b>serverless pipelines</b> that remove repetitive work and run themselves. The flagship: a bot that watches my university's notice board so I never have to.</p>
+      <p class="sub">Small <b>serverless pipelines</b> that remove repetitive work and run themselves. The flagship watches my university's notice board — plus a growing shelf of smaller ones, like a Gmail-to-Telegram digest watcher.</p>
     </div>
   </div>
 
@@ -268,7 +268,7 @@
 
   <!-- ════════════════ THE STORY ════════════════ -->
   <section class="case">
-    <div class="case-kicker">The story</div>
+    <div class="case-kicker">AIUB Notice Board · the story</div>
     <h3 class="case-h">How it works.</h3>
     <p class="case-p">
       Students and staff used to refresh the AIUB notices page hoping to catch
@@ -322,7 +322,7 @@
 
   <!-- ════════════════ ARCHITECTURE ════════════════ -->
   <section class="case">
-    <div class="case-kicker">The design</div>
+    <div class="case-kicker">AIUB Notice Board · the design</div>
     <h3 class="case-h">Architecture.</h3>
     <p class="case-p">
       There is <mark>no backend to maintain</mark>. A <b>GitHub Actions</b> cron job is the entire
@@ -480,6 +480,256 @@
       <div class="rel-item">
         <h4>Free forever</h4>
         <p>Public-repo Actions minutes are unlimited and the free GitHub Models tier (150 calls/day) dwarfs the bot's ~20 — no paid keys, DB or server.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ EMAIL TRUCKER ════════════════ -->
+  <section class="case">
+    <div class="case-hero">
+      <div>
+        <img class="hero-logo" src="images/email-trucker-logo.svg" width="62" height="62" alt="Email Trucker logo" decoding="async">
+        <div class="case-kicker">Second build · 2026 · live</div>
+        <h2 class="hero-name">Email Trucker <span aria-hidden="true">📬</span></h2>
+        <p class="lede">
+          Checks a Gmail inbox roughly every hour via <b>GitHub Actions</b> and sends a
+          <mark>Telegram digest</mark> — sender + subject — for every new email in the
+          <b>Primary</b> tab. Promotions, Social and Updates are silently skipped, and the
+          mailbox is opened strictly <mark>read-only</mark>: nothing is ever marked as read.
+          No server, no database. <mark>$0 a month.</mark>
+        </p>
+
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">IMAP</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Telegram Bot API</span>
+          <span class="tag">Cron</span>
+          <span class="tag">Serverless</span>
+        </div>
+      </div>
+
+      <!-- sample telegram delivery -->
+      <div class="tg" aria-hidden="true">
+        <div class="tg-head">
+          <span class="tg-av" aria-hidden="true">ET</span>
+          <span class="tg-id">
+            <b>Email Trucker</b>
+            <span>@email_trucker_bot</span>
+          </span>
+          <span class="tg-bot">bot</span>
+        </div>
+        <div class="tg-body">
+          <div class="tg-msg">
+            <div class="tg-cat">📬 3 new · Primary</div>
+            <div class="tg-txt">
+              <b>Vercel</b> — Your deployment is ready<br>
+              <b>Jane Doe</b> — Re: portfolio feedback<br>
+              <b>GitHub</b> — New sign-in to your account
+            </div>
+            <div class="tg-foot"><span class="tg-link">check_mail.py ↗</span><span class="tg-time">just now</span></div>
+          </div>
+          <div class="tg-msg" style="opacity:.55">
+            <div class="tg-cat">✅ Email watcher is live</div>
+            <div class="tg-txt">Baselined at the current inbox — you'll hear from me from here on.</div>
+            <div class="tg-foot"><span class="tg-time">first run</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-item"><span class="kpi-num">$0</span><span class="kpi-lab">running cost<br>/ month</span></div>
+      <div class="kpi-item"><span class="kpi-num">~24×</span><span class="kpi-lab">checks / day<br>hourly, best-effort</span></div>
+      <div class="kpi-item"><span class="kpi-num">0</span><span class="kpi-lab">emails ever<br>marked read</span></div>
+      <div class="kpi-item"><span class="kpi-num">3</span><span class="kpi-lab">Gmail tabs<br>silently skipped</span></div>
+    </div>
+  </section>
+
+  <section class="case">
+    <div class="case-kicker">Email Trucker · the story</div>
+    <h3 class="case-h">How it works.</h3>
+    <p class="case-p">
+      No more refreshing Gmail hoping something important slipped in. A single
+      Telegram chat gets one message per run — and only when there's actually
+      something new. Every run is a short pipeline, defined in
+      <code>.github/workflows/check-mail.yml</code> and executed by
+      <code>check_mail.py</code>.
+    </p>
+
+    <ol class="pipe">
+      <li class="pstep">
+        <span class="pstep-n">1</span>
+        <div>
+          <h4>Trigger<span class="file">check-mail.yml</span></h4>
+          <p>Fires on a <b>cron schedule</b> at <code>:17</code> past every hour — deliberately off the top-of-the-hour slot, which is the most congested time on GitHub's shared runners — or via a manual <code>workflow_dispatch</code> run for testing.</p>
+        </div>
+      </li>
+      <li class="pstep">
+        <span class="pstep-n">2</span>
+        <div>
+          <h4>Checkout &amp; secrets<span class="file">check-mail.yml</span></h4>
+          <p>Checks out the repo and loads four repository secrets — <code>GMAIL_ADDRESS</code>, <code>GMAIL_APP_PASSWORD</code>, <code>TELEGRAM_BOT_TOKEN</code>, <code>TELEGRAM_CHAT_ID</code> — as environment variables for the script.</p>
+        </div>
+      </li>
+      <li class="pstep">
+        <span class="pstep-n">3</span>
+        <div>
+          <h4>Read mail<span class="file">check_mail.py</span></h4>
+          <p>Logs into Gmail over <b>IMAP</b> with an App Password, mailbox opened <mark>read-only</mark>, and searches <code>category:primary</code> for messages newer than the last-notified UID in <code>state.json</code>.</p>
+        </div>
+      </li>
+      <li class="pstep">
+        <span class="pstep-n">4</span>
+        <div>
+          <h4>Digest &amp; persist<span class="file">check_mail.py · state.json</span></h4>
+          <p>New mail sends <b>one plain-text Telegram digest</b> (sender + subject per email); nothing new just logs and exits. Either way, the last-seen UID (+ <code>UIDVALIDITY</code>) is committed back to <code>state.json</code> so the next stateless run stays duplicate-free. A failed run sends a <b>"⚠️ Email watcher failed"</b> alert through the same bot instead.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="cats" aria-label="How each Gmail tab is handled">
+      <span class="cat"><span class="e" aria-hidden="true">📥</span> Primary — digested</span>
+      <span class="cat"><span class="e" aria-hidden="true">🏷️</span> Promotions — skipped</span>
+      <span class="cat"><span class="e" aria-hidden="true">👥</span> Social — skipped</span>
+      <span class="cat"><span class="e" aria-hidden="true">🔔</span> Updates — skipped</span>
+    </div>
+  </section>
+
+  <section class="case">
+    <div class="case-kicker">Email Trucker · the design</div>
+    <h3 class="case-h">Architecture.</h3>
+    <p class="case-p">
+      Same philosophy as the notice board: <mark>no backend to maintain</mark>. A GitHub
+      Actions cron job <b>is</b> the runtime — it boots a fresh, disposable runner
+      roughly every hour, reads mail once, and commits its own state back to the repo
+      so the next run — on a completely different machine — knows where it left off.
+    </p>
+
+    <div class="arch-scroll">
+      <svg class="arch" viewBox="0 0 960 600" role="img" aria-label="Architecture diagram: an hourly cron, or a manual dispatch, runs check_mail.py on a GitHub Actions runner. It checks out the repo with its secrets, then logs into Gmail over read-only IMAP and searches for new Primary mail. New mail sends a Telegram digest, no new mail just logs and exits, and an error sends a failure alert. Successful runs commit the last-seen UID to state.json, which the next scheduled run reads back.">
+        <defs>
+          <marker id="arr2" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L7,3 L0,6 Z" fill="#1F44E0"/>
+          </marker>
+          <marker id="arrn2" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L7,3 L0,6 Z" fill="#6B6E76"/>
+          </marker>
+          <marker id="arrr2" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L7,3 L0,6 Z" fill="#E5484D"/>
+          </marker>
+        </defs>
+
+        <!-- ── triggers ── -->
+        <g>
+          <rect x="155" y="22" width="280" height="58" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <text class="lbl-a" x="175" y="48">CRON · HOURLY, :17 PAST</text>
+          <text class="sub" x="175" y="68">off the top-of-hour rush</text>
+
+          <rect x="525" y="22" width="280" height="58" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <text class="lbl-a" x="545" y="48">MANUAL · workflow_dispatch</text>
+          <text class="sub" x="545" y="68">local / on-demand test</text>
+
+          <path d="M295,80 L295,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
+          <path d="M665,80 L665,118" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
+        </g>
+
+        <!-- ── github actions runner frame ── -->
+        <rect x="60" y="120" width="840" height="340" rx="16" fill="#F8F6F0" stroke="#D9D6CD" stroke-width="1.4"/>
+        <text class="lbl-a" x="82" y="146">GITHUB ACTIONS RUNNER · UBUNTU</text>
+        <rect x="762" y="130" width="118" height="24" rx="12" fill="#ECF0FF" stroke="#d9e1ff"/>
+        <text class="lbl-a" x="821" y="146" text-anchor="middle" style="font-size:10px">$0 / MONTH</text>
+        <text class="lbl" x="82" y="167">check_mail.py — single-file pipeline</text>
+
+        <!-- 1 Checkout & secrets -->
+        <g>
+          <rect x="90" y="182" width="250" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle cx="116" cy="208" r="13" fill="#1F44E0"/>
+          <text class="nbadge" x="116" y="212" text-anchor="middle">1</text>
+          <text class="name" x="138" y="213">Checkout &amp; secrets</text>
+          <text class="sub" x="108" y="244">.github/workflows</text>
+          <text class="det" x="108" y="263">4 repo secrets</text>
+          <text class="det" x="108" y="279">→ env vars</text>
+        </g>
+        <!-- 2 Read mail -->
+        <g>
+          <rect x="390" y="182" width="280" height="110" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <circle cx="416" cy="208" r="13" fill="#1F44E0"/>
+          <text class="nbadge" x="416" y="212" text-anchor="middle">2</text>
+          <text class="name" x="438" y="213">Read mail (IMAP)</text>
+          <text class="sub" x="408" y="244">check_mail.py</text>
+          <text class="det" x="408" y="263">Gmail · read-only login</text>
+          <text class="det" x="408" y="279">category:primary, new UIDs</text>
+        </g>
+        <path d="M340,237 L390,237" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr2)"/>
+
+        <!-- branch trunk -->
+        <path d="M530,292 L530,310" fill="none" stroke="#1F44E0" stroke-width="1.4"/>
+        <path d="M530,310 L205,310 L205,330" fill="none" stroke="#1F44E0" stroke-width="1.6" marker-end="url(#arr2)"/>
+        <path d="M530,310 L495,310 L495,330" fill="none" stroke="#6B6E76" stroke-width="1.4" marker-end="url(#arrn2)"/>
+        <path d="M530,310 L785,310 L785,330" fill="none" stroke="#E5484D" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrr2)"/>
+
+        <!-- D new mail -->
+        <g>
+          <rect x="90" y="330" width="230" height="90" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <text class="lbl-a" x="108" y="354">NEW PRIMARY MAIL</text>
+          <text class="name" x="108" y="376">Send Telegram digest</text>
+          <text class="sub" x="108" y="398">sender + subject · Bot API</text>
+        </g>
+        <!-- E no new mail -->
+        <g>
+          <rect x="380" y="330" width="230" height="90" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <text class="lbl-a" x="398" y="354">NO NEW MAIL</text>
+          <text class="name" x="398" y="376">Log only, exit</text>
+          <text class="sub" x="398" y="398">run ends quietly</text>
+        </g>
+        <!-- F error -->
+        <g>
+          <rect x="670" y="330" width="230" height="90" rx="11" fill="#FFFFFF" stroke="#F0C4C0"/>
+          <text class="lbl-a" x="688" y="354" style="fill:#E5484D">ERROR</text>
+          <text class="name" x="688" y="376">Send failure alert</text>
+          <text class="sub" x="688" y="398">same bot · Bot API</text>
+        </g>
+
+        <!-- D, E → state store -->
+        <path d="M205,420 L205,480 L350,480 L350,500" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
+        <path d="M495,420 L495,480 L610,480 L610,500" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
+
+        <!-- state store -->
+        <g>
+          <rect x="290" y="500" width="380" height="70" rx="11" fill="#FFFFFF" stroke="#D9D6CD"/>
+          <text class="lbl" x="308" y="524">STATE STORE</text>
+          <text class="name" x="308" y="546" style="font-size:12.5px">state.json — last UID + UIDVALIDITY</text>
+          <text class="sub" x="308" y="562">committed back to the repo</text>
+        </g>
+
+        <!-- loop back to next scheduled run -->
+        <path d="M290,535 L20,535 L20,51 L155,51" fill="none" stroke="#6B6E76" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#arrn2)"/>
+        <text class="lbl" x="34" y="293" transform="rotate(-90 34 293)" text-anchor="middle">STATE FEEDS NEXT RUN</text>
+      </svg>
+    </div>
+
+    <p class="arch-cap">
+      State is what makes a disposable runner reliable. Every successful run commits the
+      last-notified UID (plus <code>UIDVALIDITY</code>) to <code>state.json</code>, and the
+      very next scheduled run — on a brand-new machine — reads it straight back, so
+      duplicate-free delivery survives GitHub throwing the runner away every single time.
+      The IMAP session never issues a mark-as-read command, so the inbox itself keeps no
+      trace of the bot ever visiting it.
+    </p>
+
+    <div class="rel">
+      <div class="rel-item">
+        <h4>First-run baseline</h4>
+        <p>No flood of old mail: the first run silently baselines at the current newest email and sends one "✅ Email watcher is live" confirmation instead.</p>
+      </div>
+      <div class="rel-item">
+        <h4>Stateless-safe dedup</h4>
+        <p>GitHub runners are thrown away after every run — <code>state.json</code>, committed back to the repo, is the only memory the bot has between them.</p>
+      </div>
+      <div class="rel-item">
+        <h4>Best-effort schedule, zero loss</h4>
+        <p>GitHub's cron is best-effort and occasionally skips a slot; a missed hour's mail simply arrives folded into the next digest.</p>
       </div>
     </div>
   </section>
