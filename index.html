@@ -26,6 +26,139 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
+
+<!-- ============================================================
+     PAGE-SCOPED "elevated & polished" enhancements — index.html
+     only. Adds depth (ambient gradients, layered shadows), refined
+     hover states, gradient numerals, and a progressive-enhancement
+     scroll-reveal. css/style.css (and the other case-study pages
+     that share it) are intentionally left untouched.
+     ============================================================ -->
+<style>
+  /* ---------- ambient depth ---------- */
+  body{
+    background:
+      radial-gradient(1000px 620px at 12% -8%, rgba(31,68,224,.05), transparent 60%),
+      radial-gradient(820px 520px at 100% 4%, rgba(31,68,224,.04), transparent 55%),
+      radial-gradient(760px 480px at 50% 100%, rgba(19,36,92,.03), transparent 60%),
+      var(--paper);
+  }
+
+  /* ---------- topbar polish ---------- */
+  .topbar{transition:box-shadow .35s var(--ease), background .35s var(--ease)}
+  .topbar.is-scrolled{box-shadow:0 10px 28px -20px rgba(24,25,28,.4)}
+  .topbar .brand{transition:color .2s var(--ease)}
+  .topbar .brand:hover{color:var(--accent-deep)}
+  .status-pill{box-shadow:0 1px 2px rgba(24,25,28,.04)}
+  .status-pill .dot{box-shadow:0 0 0 3px rgba(26,143,76,.15), 0 0 12px 2px rgba(26,143,76,.35)}
+
+  /* ---------- buttons ---------- */
+  .btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+    position:relative;overflow:hidden;
+    box-shadow:0 1px 2px rgba(19,36,92,.18), 0 10px 26px -16px rgba(19,36,92,.55);
+  }
+  .btn-primary::before{
+    content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;
+    background:linear-gradient(115deg,transparent,rgba(255,255,255,.4),transparent);
+    transform:skewX(-18deg);transition:left .55s var(--ease);
+  }
+  .btn-primary:hover::before{left:130%}
+  .btn-primary:hover{
+    background:linear-gradient(135deg,var(--accent-deep),#0c1a44);
+    box-shadow:0 1px 2px rgba(19,36,92,.2), 0 16px 34px -16px rgba(19,36,92,.6);
+  }
+  .btn-ghost:hover{background:var(--surface-2);box-shadow:0 8px 20px -14px rgba(24,25,28,.3)}
+
+  /* ---------- hero / summary card ---------- */
+  .hero{position:relative;isolation:isolate}
+  .hero::before{
+    content:"";position:absolute;z-index:-1;inset:8% -6% -12% -6%;
+    background:
+      radial-gradient(55% 65% at 22% 20%, rgba(31,68,224,.16), transparent 70%),
+      radial-gradient(45% 55% at 92% 12%, rgba(19,36,92,.11), transparent 70%);
+    filter:blur(38px);pointer-events:none;
+  }
+  .summary-card{
+    position:relative;
+    box-shadow:
+      0 1px 2px rgba(24,25,28,.05),
+      0 2px 10px rgba(31,68,224,.07),
+      0 36px 74px -34px rgba(19,36,92,.32);
+  }
+  .summary-card::after{
+    content:"";position:absolute;top:0;left:28px;right:28px;height:3px;border-radius:0 0 4px 4px;
+    background:linear-gradient(90deg,var(--accent),#7c93ff 45%,var(--accent-deep));
+    opacity:.9;
+  }
+  .sc-skills li{transition:transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease)}
+  .sc-skills li:hover{transform:translateY(-2px);box-shadow:0 10px 18px -10px rgba(31,68,224,.4);background:#e2e9ff}
+  .sc-facts .fact{transition:background .2s var(--ease)}
+  .sc-facts .fact:hover{background:var(--accent-soft)}
+
+  @supports (background-clip:text) or (-webkit-background-clip:text){
+    .sc-facts .fact-num, .ps-stat-num{
+      background:linear-gradient(135deg,var(--ink) 15%,var(--accent-deep) 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+  }
+
+  /* ---------- section head flourish ---------- */
+  .sec-head .num{
+    display:inline-flex;align-items:center;
+    background:var(--accent-soft);border:1px solid #d9e1ff;border-radius:999px;
+    padding:6px 13px;width:fit-content;
+  }
+  .sec-head h2{position:relative;padding-bottom:16px}
+  .sec-head h2::after{
+    content:"";position:absolute;left:0;bottom:0;width:56px;height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--accent),#a9b9ff);
+  }
+
+  /* ---------- about ---------- */
+  .about-portrait{
+    box-shadow:
+      0 1px 2px rgba(24,25,28,.04),
+      0 18px 46px -30px rgba(19,36,92,.35),
+      16px 16px 0 0 var(--accent-soft);
+  }
+  .about-portrait img{transition:transform .5s var(--ease)}
+  .about-portrait:hover img{transform:scale(1.045)}
+
+  /* ---------- experience timeline ---------- */
+  .tl-body{padding-left:20px;border-left:2px solid var(--rule);transition:border-color .25s var(--ease)}
+  .tl-item:hover .tl-body{border-left-color:var(--accent)}
+  .tl-role{transition:color .2s var(--ease)}
+  .tl-item:hover .tl-role{color:var(--accent-deep)}
+
+  /* ---------- skills grid ---------- */
+  .skill-group{transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease)}
+  .skill-group:hover{transform:translateY(-3px);box-shadow:0 18px 36px -24px rgba(24,25,28,.32);border-color:var(--rule-2)}
+  .sg-list li{transition:background .2s var(--ease), color .2s var(--ease), transform .15s var(--ease)}
+  .sg-list li:hover{background:var(--accent-soft);color:var(--accent-deep);transform:translateY(-1px)}
+
+  /* ---------- selected work ---------- */
+  .work-card{border-radius:16px}
+  .work-card:hover{box-shadow:0 22px 46px -22px rgba(19,36,92,.38), 0 8px 18px -10px rgba(24,25,28,.16);border-color:#b9c8ff}
+
+  /* ---------- problem solving ---------- */
+  .ps-card{border-radius:16px}
+  .ps-card:hover{box-shadow:0 22px 44px -22px rgba(19,36,92,.36), 0 8px 18px -10px rgba(24,25,28,.16)}
+
+  /* ---------- contact / socials ---------- */
+  .social{border-radius:14px;transition:border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease)}
+  .social:hover{box-shadow:0 16px 32px -20px rgba(24,25,28,.3);background:var(--surface-2)}
+
+  /* ---------- scroll reveal (progressive enhancement — no-JS/reduced-motion
+     users see everything instantly; hero is intentionally excluded so the
+     5-second scan is never gated behind scroll) ---------- */
+  @keyframes reveal-up{
+    from{opacity:0;transform:translateY(18px)}
+    to{opacity:1;transform:none}
+  }
+  .reveal-pending{opacity:0}
+  .reveal-pending.reveal-in{animation:reveal-up .7s var(--ease) both}
+</style>
 </head>
 <body>
 
@@ -514,5 +647,40 @@
 </main>
 
 <script src="js/script.js"></script>
+<script>
+  /* Page-scoped: topbar scroll shadow + scroll-reveal. Kept out of
+     js/script.js so the other pages that load it are unaffected. */
+  (function topbarShadow(){
+    const bar = document.querySelector('.topbar');
+    if (!bar) return;
+    const onScroll = () => bar.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  (function scrollReveal(){
+    if (!('IntersectionObserver' in window)) return;
+    const els = [...document.querySelectorAll(
+      '.sec-head, .about-grid, .tl-item, .skill-group, .work-card, .ps-card, .contact-body'
+    )];
+    if (!els.length) return;
+
+    els.forEach(el => el.classList.add('reveal-pending'));
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        io.unobserve(el);
+        el.classList.add('reveal-in');
+        el.addEventListener('animationend', () => {
+          el.classList.remove('reveal-pending', 'reveal-in');
+        }, { once: true });
+      });
+    }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+
+    els.forEach(el => io.observe(el));
+  })();
+</script>
 </body>
 </html>
