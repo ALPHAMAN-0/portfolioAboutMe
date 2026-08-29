@@ -13,12 +13,12 @@
 <meta property="og:url" content="https://alphaman-0.github.io/AboutMe/" />
 <meta property="og:title" content="Siam Hossain — Full-Stack &amp; AI Engineer" />
 <meta property="og:description" content="Full-Stack Engineer (MERN/MEAN) with 2+ years building production web apps and AI/ML features. Projects, skills, experience and CV." />
-<meta property="og:image" content="https://alphaman-0.github.io/AboutMe/images/SIAM.jpeg" />
+<meta property="og:image" content="https://alphaman-0.github.io/AboutMe/images/siam-headshot.jpg" />
 <meta property="og:image:alt" content="Siam Hossain — Software Engineer" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Siam Hossain — Full-Stack &amp; AI Engineer" />
 <meta name="twitter:description" content="Full-Stack Engineer (MERN/MEAN) with 2+ years building production web apps and AI/ML features." />
-<meta name="twitter:image" content="https://alphaman-0.github.io/AboutMe/images/SIAM.jpeg" />
+<meta name="twitter:image" content="https://alphaman-0.github.io/AboutMe/images/siam-headshot.jpg" />
 <meta name="theme-color" content="#fbfaf7" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -115,15 +115,31 @@
     background:linear-gradient(90deg,var(--accent),#a9b9ff);
   }
 
-  /* ---------- about ---------- */
-  .about-portrait{
+  /* ---------- about — two-photo editorial stack ----------
+     The old 16px offset block was replaced by .ap-inset, which now occupies
+     that space; keeping both would collide. */
+  .ap-main{box-shadow:0 1px 2px rgba(24,25,28,.04), 0 22px 54px -32px rgba(19,36,92,.38)}
+  .ap-inset{
     box-shadow:
-      0 1px 2px rgba(24,25,28,.04),
-      0 18px 46px -30px rgba(19,36,92,.35),
-      16px 16px 0 0 var(--accent-soft);
+      0 0 0 6px var(--surface),          /* white mat separates card from photo */
+      0 0 0 7px var(--rule),             /* + hairline rule */
+      0 22px 44px -24px rgba(19,36,92,.45);
   }
-  .about-portrait img{transition:transform .5s var(--ease)}
-  .about-portrait:hover img{transform:scale(1.045)}
+  .about-portrait img{transition:transform .6s var(--ease)}
+  .about-portrait:hover .ap-main img{transform:scale(1.04)}
+  /* The secondary is a full-body frame in a small square card, so `cover` alone
+     leaves the face tiny. A static scale tightens onto the head/crossed-arms
+     region — a fixed crop, not motion, so reduced-motion is unaffected. */
+  .ap-inset img{transform:scale(1.2);transform-origin:50% 22%}
+  .about-portrait:hover .ap-inset img{transform:scale(1.28)}
+  @media (max-width:600px){
+    .ap-inset{
+      box-shadow:
+        0 0 0 5px var(--surface),
+        0 0 0 6px var(--rule),
+        0 16px 30px -20px rgba(19,36,92,.4);
+    }
+  }
 
   /* ---------- experience timeline ---------- */
   .tl-body{padding-left:20px;border-left:2px solid var(--rule);transition:border-color .25s var(--ease)}
@@ -284,7 +300,17 @@
 
   <div class="about-grid">
     <figure class="about-portrait">
-      <img src="images/SIAM.jpeg" alt="Portrait of Siam Hossain" decoding="async">
+      <span class="ap-tint" aria-hidden="true"></span>
+      <div class="ap-main">
+        <img src="images/siam-headshot.jpg"
+             alt="Siam Hossain — head-and-shoulders studio portrait"
+             width="1000" height="1000" loading="lazy" decoding="async">
+      </div>
+      <div class="ap-inset">
+        <img src="images/siam-portrait.jpg"
+             alt="Siam Hossain standing with arms crossed in a garden courtyard"
+             width="783" height="800" loading="lazy" decoding="async">
+      </div>
     </figure>
 
     <div class="about-bio">
